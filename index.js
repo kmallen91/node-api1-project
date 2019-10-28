@@ -54,3 +54,19 @@ server.delete('/api/users/:id', (req, res) => {
             res.status(500).json({response: 'DELETE ERROR'})
         })
 })
+
+server.put('/api/users/:id', (req, res)=> {
+    const {id} = req.params
+    const user = req.body
+    db.update(id, user)
+        .then(user => {
+            if (user) {
+                res.status(201).json(user)
+            }
+            else {
+                res.status(400).json({response: 'user does not exist'})
+            }
+            
+        })
+        .catch(err => res.status(500).json({response: 'PUT ERROR'}))
+})
